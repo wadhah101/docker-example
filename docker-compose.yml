@@ -1,10 +1,39 @@
 version: "3"
 
+networks:
+  manel:
+
 services:
+  db:
+    image: mariadb
+    # environment:
+    #   MYSQL_DATABASE: "db1"
+    #   MYSQL_USER: "user"
+    #   MYSQL_PASSWORD: "user"
+    #   MYSQL_RANDOM_ROOT_PASSWORD: "TRUE"
+    env_file:
+      - ./.env
+    networks:
+      - manel
+    ports:
+      - 3306:3306
+    volumes:
+      - "./data/db:/var/lib/mysql"
+
   express:
+    depends_on:
+      - db
     build:
       context: ./
-    environment:
-      PORT: 5000
+    env_file:
+      - ./.env
+    # environment:
+    #   - PORT
+    #   - MYSQL_DATABASE
+    #   - MYSQL_USER
+    #   - MYSQL_PASSWORD
+    #   - MYSQL_HOST
     ports:
       - 5000:5000
+    networks:
+      - manel
