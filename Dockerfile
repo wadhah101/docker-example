@@ -1,7 +1,6 @@
 
 # specify base image 
 FROM node:alpine
-# ENV PORT=5000
 
 # copy application code 
 COPY ./ /app/
